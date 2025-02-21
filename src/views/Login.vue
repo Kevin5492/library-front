@@ -1,3 +1,26 @@
+<template>
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="max-width: 400px; width: 100%;">
+      <h3 class="text-center">登入</h3>
+      
+      <div class="mb-3">
+        <label class="form-label">手機號碼</label>
+        <input v-model="phone" type="text" class="form-control" placeholder="輸入手機號碼">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">密碼</label>
+        <input v-model="password" type="password" class="form-control" placeholder="輸入密碼">
+      </div>
+
+      <button @click="handleLogin" class="btn btn-primary w-100" :disabled="loading">
+        <span v-if="loading" class="spinner-border spinner-border-sm"></span>
+        登入
+      </button>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -34,7 +57,7 @@ const handleLogin = async () => {
     }
     authStore.setToken(token);
     Swal.fire("登入成功", "歡迎回來！", "success").then(() => {
-      router.push("/");
+      router.push("/showAllBook");
     });
   } catch (error) {
     console.log(error)
@@ -44,29 +67,6 @@ const handleLogin = async () => {
   }
 };
 </script>
-
-<template>
-  <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow-lg" style="max-width: 400px; width: 100%;">
-      <h3 class="text-center">登入</h3>
-      
-      <div class="mb-3">
-        <label class="form-label">手機號碼</label>
-        <input v-model="phone" type="text" class="form-control" placeholder="輸入手機號碼">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">密碼</label>
-        <input v-model="password" type="password" class="form-control" placeholder="輸入密碼">
-      </div>
-
-      <button @click="handleLogin" class="btn btn-primary w-100" :disabled="loading">
-        <span v-if="loading" class="spinner-border spinner-border-sm"></span>
-        登入
-      </button>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .vh-100 {
