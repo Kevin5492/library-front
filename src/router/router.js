@@ -6,8 +6,8 @@ import Register from "@/views/Register.vue";
 import BorrowedBook from "@/views/BorrowedBook.vue";
 import ReturnRecord from "@/views/ReturnRecord.vue";
 
-const routes = [
-    { path: "/", component: Home },
+const routes = [ // 路由配置
+    { path: "/", component: AllBook },
     { path: "/showAllBook", component: AllBook },
     { path: "/login", component: Login },
     { path: "/register", component: Register },

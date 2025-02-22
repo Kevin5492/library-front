@@ -44,7 +44,7 @@ import Swal from 'sweetalert2';
 const authStore = useAuthStore();
 const router = useRouter();
 
-async function handleLogout () {
+async function handleLogout () {//登出帳號
    
   try{
     const response=  await api.post(

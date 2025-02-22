@@ -1,15 +1,15 @@
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("auth", {
-    state: () => ({
+    state: () => ({ //從localStorage中取得Token
         token: localStorage.getItem("token") || null
     }),
     actions: {
-        setToken(token) {
+        setToken(token) { //用來把JWT Token存到localStorage中
             this.token = token;
             localStorage.setItem("token", token);
         },
-        logout() {
+        logout() { //用來登出，清除localStorage中的Token
             this.token = null;
             localStorage.removeItem("token");
         }

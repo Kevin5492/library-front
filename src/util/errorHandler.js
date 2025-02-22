@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores/authStore";
 export function errorHandler(error) {
     const authStore = useAuthStore();
 
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 401) {//如果狀態是401，代表未登入，跳轉到登入頁面
         authStore.logout();
         Swal.fire({
             title: "請先登入",
