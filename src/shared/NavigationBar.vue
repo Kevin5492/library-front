@@ -1,6 +1,9 @@
 <template >
     <div class = "container">
+      <h1>圖書借閱系統</h1>
+     
         <ul class="nav nav-tabs">
+
         <li class="nav-item">
             <RouterLink  class="nav-link" 
             aria-current="page"  to = "/showAllBook">查看所有書</RouterLink>
@@ -9,6 +12,10 @@
             <li  class="nav-item">
                 <RouterLink  class="nav-link" 
                 aria-current="page"  to = "/borrowedBooks">已借閱書籍</RouterLink>
+        </li>
+        <li  class="nav-item">
+                <RouterLink  class="nav-link" 
+                aria-current="page"  to = "/returnRecord">還書紀錄</RouterLink>
         </li>
         <li  class="nav-item">
            <button @click="handleLogout" class="nav-link">登出
