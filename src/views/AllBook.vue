@@ -1,5 +1,16 @@
 <template>
-    <table class="table table-striped table-hover">
+    <div class="col" style="margin-top: 20px;">
+            <label for="status">輸入 查詢內容</label>
+            <input 
+              type="text" 
+              v-model="searchInput" 
+              @change="getAllBooks" 
+              class="form-control" 
+              placeholder="輸入 查詢內容"/>
+          </div>
+    <div class="container d-flex justify-content-center ">
+        
+        <table class="table table-striped table-hover text-center">
           <thead>
             <tr>
               <th scope="col">ISBN</th>
@@ -23,18 +34,23 @@
             </tr>
           </tbody>
         </table>
+    </div>
+   
 
 </template>
 <script setup>
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted ,ref} from "vue";
 import api from "@/api/axios";
-
 import Swal from 'sweetalert2';
+import { errorHandler } from "@/util/errorHandler";
 const books = reactive([]);
-const apiBaseUrl = import.meta.env.VITE_API_URL;
+const searchInput = ref("");
+
 async function getAllBooks(){
-    const response = await api.get(
-        `${apiBaseUrl}/book/showAllBooks`
+    const response = await api.post(
+        `/book/showAllBooks`,{
+            "searchInput":searchInput.value || ""
+        },{  withCredentials: true}
       );
       console.log(response.data);
       books.length = 0;
@@ -43,36 +59,21 @@ async function getAllBooks(){
 }
 async function borrowABook(isbn) {
   try {
-    const response = await api.post(`${apiBaseUrl}/book/borrowABook`, {
+    const response = await api.post(`/book/borrowABook`, {
         "isbn":isbn
     },{  withCredentials: true 
 });
-
-    console.log(response.data);
+if(response.data.success){
     Swal.fire({
       title: "借閱成功",
       icon: "success",
       confirmButtonText: "確定"
     });
     getAllBooks();
+}else{
+    Swal.fire("借閱失敗",response.data.mssg , "warning");}
   } catch (error) {
-    if (error.response && error.response.status === 401) {
-      Swal.fire({
-        title: "請先登入",
-        text: "您的帳戶未登入，請登入後再嘗試",
-        icon: "warning",
-        confirmButtonText: "確定"
-      }).then(() => {
-        window.location.href = "/login"; 
-      });
-    } else {
-      Swal.fire({
-        title: "錯誤",
-        text: "發生未知錯誤，請稍後再試",
-        icon: "error",
-        confirmButtonText: "確定"
-      });
-    }
+    errorHandler(error);
   }
 }
 
@@ -81,3 +82,8 @@ onMounted(() => {
 });
 
 </script>
+<style>
+
+
+
+</style>
